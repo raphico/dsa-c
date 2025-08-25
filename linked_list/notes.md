@@ -47,7 +47,11 @@ A linked list is a data structure that stores elements in nodes connected by poi
 
 ## Linked lists vs Arrays
 
+- linked lists use more memory to store pointers
+- linked lists are cache inefficient, because nodes are scattered in memory, resulting in slower sequential access unlike contiguous arrays
+
 Rules of thumb:
 
 - Use arrays for faster indexing, less memory usage, and better cache performance(accessing element, automatically loads adjacent element)
 - Use linked lists for faster insertions, deletions, and a more flexible structure
+- Use arrays if you know the size in advance or if the size rarely changes

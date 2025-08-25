@@ -1,3 +1,5 @@
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,79 +11,63 @@ typedef struct node {
 typedef struct {
     node *front;
     node *rear;
+    size_t size;
 } queue;
 
-node *create_node(int data);
+void free_queue(queue *q);
+void init_queue(queue *q);
+
 int enqueue(queue *q, int data);
 int dequeue(queue *q, int *rval);
 int peek(queue *q, int *val);
-void free_queue(queue *q);
+bool is_empty(queue *q);
 
 int main() {
-    queue q = {
-        .front = NULL,
-        .rear = NULL
-    };
+    queue q;
+    init_queue(&q);
 
-    if (enqueue(&q, 10)) {
-        fprintf(stderr, "failed to create node\n");
-        free_queue(&q);
-        return 1;
-    }
-    if (enqueue(&q, 20)) {
-        fprintf(stderr, "failed to create node\n");
-        free_queue(&q);
-        return 1;
-    }
-    if (enqueue(&q, 30)) {
-        fprintf(stderr, "failed to create node\n");
-        free_queue(&q);
-        return 1;
-    }
-    if (enqueue(&q, 40)) {
-        fprintf(stderr, "failed to create node\n");
-        free_queue(&q);
-        return 1;
-    }
+    enqueue(&q, 10);
+    enqueue(&q, 20);
+    enqueue(&q, 30);
 
     int val;
     if (peek(&q, &val) == 0) {
         printf("Peek: %d\n", val);
     }
 
-    while (dequeue(&q, &val) == 0) {
-        printf("Dequeued: %d\n", val);
+    while (!is_empty(&q)) {
+        if (dequeue(&q, &val) == 0) {
+            printf("Dequeued: %d\n", val);
+        }
     }
 
     free_queue(&q);
+    return 0;
 }
 
-node *create_node(int data) {
+void init_queue(queue *q) {
+    q->front = NULL;
+    q->rear = NULL;
+    q->size = 0;
+}
+
+int enqueue(queue *q, int data) {
     node *n = malloc(sizeof(node));
     if (!n) {
-        return NULL;
+        return -1;
     }
 
     n->next = NULL;
     n->data = data;
 
-    return n;
-}
-
-int enqueue(queue *q, int data) {
-    node *n = create_node(data);
-    if (!n) {
-        return -1;
-    }
-
     if (!q->rear) {
         q->front = q->rear = n;
-        return 0;
+    } else {
+        q->rear->next = n;
+        q->rear = n;
     }
 
-    q->rear->next = n;
-    q->rear = n;
-
+    q->size++;
     return 0;
 }
 
@@ -99,6 +85,7 @@ int dequeue(queue *q, int *rval) {
     }
 
     free(tmp);
+    q->size--;
     return 0;
 }
 
@@ -127,4 +114,8 @@ void free_queue(queue *q) {
 
     q->front = NULL;
     q->rear = NULL;
+}
+
+bool is_empty(queue *q) {
+    return q->size == 0;
 }

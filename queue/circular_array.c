@@ -11,8 +11,8 @@ typedef struct {
     size_t size;
 } queue;
 
-bool enqueue(queue *q, int data);
-bool dequeue(queue *q, int *rval);
+int enqueue(queue *q, int data);
+int dequeue(queue *q, int *rval);
 void peek(queue *q);
 void print_queue(queue *q);
 
@@ -54,9 +54,9 @@ void peek(queue *q) {
     printf("%d\n", q->data[q->front]);
 }
 
-bool enqueue(queue *q, int data) {
+int enqueue(queue *q, int data) {
     if (isFull(q)) {
-        return false;
+        return -1;
     }
 
     int i = (q->rear + 1) % QUEUE_CAPACITY;
@@ -64,19 +64,19 @@ bool enqueue(queue *q, int data) {
     q->rear = i;
     q->size++;
     
-    return true;
+    return 0;
 }
 
-bool dequeue(queue *q, int *rval) {
+int dequeue(queue *q, int *rval) {
     if (isEmpty(q)) {
-        return false;
+        return -1;
     }
 
     *rval = q->data[q->front];
     q->front = (q->front + 1) % QUEUE_CAPACITY;
     q->size--;
 
-    return true;
+    return 0;
 }
 
 void print_queue(queue *q) {
@@ -84,7 +84,7 @@ void print_queue(queue *q) {
         printf("empty\n");
         return;
     }
-    
+
     for (int i = q->front; true; i = (i + 1) % QUEUE_CAPACITY) {
         printf("%d\n", q->data[i]);
         if (i == q->rear) {

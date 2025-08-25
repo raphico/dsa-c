@@ -6,47 +6,54 @@ typedef struct node {
     struct node *next;
 } node;
 
+typedef struct {
+    node *front;
+    node *rear;
+} queue;
+
 node *create_node(int data);
-int enqueue(node **head, node **tail, int data);
-void dequeue(node **tail, node **head);
-void peek(node **head);
-void print_queue(node *head);
-void free_queue(node **head, node **tail);
+int enqueue(queue *q, int data);
+int dequeue(queue *q, int *rval);
+int peek(queue *q, int *val);
+void free_queue(queue *q);
 
 int main() {
-    node *head = NULL;
-    node *tail = NULL;
+    queue q = {
+        .front = NULL,
+        .rear = NULL
+    };
 
-    if (enqueue(&head, &tail, 10) < 0) {
+    if (enqueue(&q, 10)) {
         fprintf(stderr, "failed to create node\n");
-        free_queue(&head, &tail);
+        free_queue(&q);
         return 1;
     }
-    if (enqueue(&head, &tail, 20) < 0) {
+    if (enqueue(&q, 20)) {
         fprintf(stderr, "failed to create node\n");
-        free_queue(&head, &tail);
+        free_queue(&q);
         return 1;
     }
-    if (enqueue(&head, &tail, 30) < 0) {
+    if (enqueue(&q, 30)) {
         fprintf(stderr, "failed to create node\n");
-        free_queue(&head, &tail);
+        free_queue(&q);
         return 1;
     }
-    if (enqueue(&head, &tail, 40) < 0) {
+    if (enqueue(&q, 40)) {
         fprintf(stderr, "failed to create node\n");
-        free_queue(&head, &tail);
+        free_queue(&q);
         return 1;
     }
 
-    peek(&head);
-    dequeue(&head, &tail);
-    peek(&head);
-    dequeue(&head, &tail);
-    peek(&head);
+    int val;
+    if (peek(&q, &val) == 0) {
+        printf("Peek: %d\n", val);
+    }
 
-    // print_queue(head);
-    free_queue(&head, &tail);
+    while (dequeue(&q, &val) == 0) {
+        printf("Dequeued: %d\n", val);
+    }
 
+    free_queue(&q);
 }
 
 node *create_node(int data) {
@@ -61,43 +68,47 @@ node *create_node(int data) {
     return n;
 }
 
-int enqueue(node **head, node **tail, int data) {
+int enqueue(queue *q, int data) {
     node *n = create_node(data);
     if (!n) {
         return -1;
     }
 
-    if (!*tail) {
-        *tail = n;
-        *head = n;
+    if (!q->rear) {
+        q->front = q->rear = n;
         return 0;
     }
 
-    (*tail)->next = n;
-    *tail = n;
+    q->rear->next = n;
+    q->rear = n;
 
     return 0;
 }
 
-void dequeue(node **head, node **tail) {
-    if (!*head) {
-        return;
+int dequeue(queue *q, int *rval) {
+    if (!q->front) {
+        return -1;
     }
 
-    node *next = (*head)->next;
-    free(*head);
-    *head = next;
-    if (!*head) {
-        *tail = NULL;
+    node *tmp = q->front;
+    *rval = tmp->data;
+
+    q->front = q->front->next;
+    if (!q->front) {
+        q->rear = NULL;
     }
+
+    free(tmp);
+    return 0;
 }
 
-void peek(node **head) {
-    if (!*head) {
-        return;
+int peek(queue *q, int *val) {
+    if (!q->front) {
+        return -1;
     }
 
-    printf("%d\n", (*head)->data);
+    *val = q->front->data;
+    return 0;
 }
 
 void print_queue(node *head) {
@@ -106,14 +117,14 @@ void print_queue(node *head) {
     }
 }
 
-void free_queue(node **head, node **tail) {
-    node *ptr = *head;
+void free_queue(queue *q) {
+    node *ptr = q->front;
     while (ptr != NULL) {
         node *next = ptr->next;
         free(ptr);
         ptr = next;
     }
 
-    *head = NULL;
-    *tail = NULL;
+    q->front = NULL;
+    q->rear = NULL;
 }

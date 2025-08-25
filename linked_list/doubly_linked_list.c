@@ -9,7 +9,7 @@ typedef struct node {
 
 void insert_node(node **head, int data);
 void print_list(node *head);
-void free_list(node *head);
+void free_list(node **head);
 
 int main() {
     node *head = NULL;
@@ -20,7 +20,7 @@ int main() {
 
     print_list(head);
 
-    free_list(head);
+    free_list(&head);
 }
 
 node *create_node(int data) {
@@ -40,7 +40,7 @@ void insert_node(node **head, int data) {
     node *n = create_node(data);
     if (!n) {
         fprintf(stderr, "failed to create node");
-        free_list(*head);
+        free_list(head);
         exit(1);
     }
 
@@ -72,12 +72,12 @@ void print_reverse(node *head) {
     }
 }
 
-void free_list(node *head) {
-    node *ptr = head;
+void free_list(node **head) {
+    node *ptr = *head;
     while (ptr != NULL) {
         node *next = ptr->next;
         free(ptr);
         ptr = next;
     }
-    head = NULL;
+    *head = NULL;
 }

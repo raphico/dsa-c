@@ -52,6 +52,7 @@ int main(void) {
         }
     }
 
+    return 0;
 }
 
 bool is_empty(queue *q) {

@@ -65,7 +65,7 @@ int push(stack *s, int data) {
     if (is_full(s)) {
         size_t new_cap = s->capacity * 2;
         int *new_data = realloc(s->data, new_cap * sizeof(int));
-        if (!s->data) {
+        if (!new_data) {
             return -1;
         }
         s->data = new_data;

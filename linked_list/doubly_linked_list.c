@@ -39,7 +39,7 @@ node *create_node(int data) {
 void insert_node(node **head, int data) {
     node *n = create_node(data);
     if (!n) {
-        fprintf(stderr, "failed to create node");
+        fprintf(stderr, "failed to create node\n");
         free_list(head);
         exit(1);
     }

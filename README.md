@@ -7,16 +7,17 @@ I’m building all core data structures and algorithms **from scratch in C** to 
 
 - Zero abstractions: you manage memory directly (`malloc`, `free`).
 - Forces a deep understanding of how data is laid out in memory.
-- Classic CS — most textbooks map naturally to C.
+- Classic CS: most textbooks map naturally to C.
 
 ## ✅ Progress
 
 - [x] Searching
-- [] Arrays
-- [] Linked List
-- [] Stack
-- [] Queue
+- [x] Arrays
+- [x] Linked List
+- [x] Queue
+- [x] Stack
 - [] Sorting
-- [] Hash Table
 - [] Trees
+- [] Heap
 - [] Graphs
+- [] Maps & LRU

@@ -59,7 +59,7 @@ bool is_empty(queue *q) {
     return q->size == 0;
 }
 
-bool isFull(queue *q) {
+bool is_full(queue *q) {
     return q->size == QUEUE_CAPACITY;
 }
 
@@ -73,7 +73,7 @@ int peek(queue *q, int *val) {
 }
 
 int enqueue(queue *q, int data) {
-    if (isFull(q)) {
+    if (is_full(q)) {
         return -1;
     }
 

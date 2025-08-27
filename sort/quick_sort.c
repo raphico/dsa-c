@@ -10,7 +10,7 @@ int main() {
     int n = sizeof(arr) / sizeof(arr[0]);
 
     // to avoid getting the same sequence of randoms each time the program runs
-    srand(time(NULL));  
+    srand(time(NULL));
 
     quick_sort(arr, 0, n - 1);
 
@@ -49,7 +49,7 @@ int partition(int arr[], int low, int high) {
             }
         }
     }
-    
+
     int tmp = arr[i + 1];
     arr[i + 1] = pivot_val;
     arr[pivot_idx] = tmp;

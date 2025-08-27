@@ -24,6 +24,11 @@ int main() {
   point end = {.x = 2, .y = 2};
 
   path p = maze_solver(maze, 3, 3, '#', start, end);
+  if (p.length == 0) {
+      printf("No path found\n");
+  }
+
+  printf("Path found (%d steps):\n", p.length);
   for (int i = 0; i < p.length; i++) {
     printf("(%d, %d)\n", p.steps[i].x, p.steps[i].y);
   }
@@ -61,10 +66,6 @@ bool dfs(char *maze[], int height, int width, char wall, bool *visited,
     return false;
   }
 
-  if (visited[curr.y * width + curr.x]) {
-    return false;
-  }
-
   if (maze[curr.y][curr.x] == wall) {
     return false;
   }
@@ -75,9 +76,13 @@ bool dfs(char *maze[], int height, int width, char wall, bool *visited,
     return true;
   }
 
-  visited[curr.y * width + curr.x] = true;
+  if (visited[curr.y * width + curr.x]) {
+    return false;
+  }
+
   path[*path_len] = curr;
   (*path_len)++;
+  visited[curr.y * width + curr.x] = true;
 
   point moves[] = {
       {.x = 1, .y = 0},

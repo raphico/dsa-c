@@ -69,3 +69,53 @@ The quick sort implementation consists of two main parts:
 
 1. Partition function: takes an array along with the starting index (low) and ending index (high) of the subarray. It selects a pivot and rearranges the array so that elements less than the pivot are on the left, and elements greater than the pivot are on the right. It then returns the pivot's final index
 2. Recursive quick sort function: calls the partition function. Once the pivot is placed in its correct position, it divides the array into two subarrays and recursively sorts the left and right subarray. The recursion stops when a subarray is has 0 or 1 element
+
+## Merge sort
+
+Merge sort is a divide-and-conquer algorithm that recursively splits an array into halves until subarrays of size 1 remain. It then merges the subarrays in sorted order
+
+Say we are sorting `[3, 1, 4, 2]`
+
+**Step 1:** Divide until subarrays of size 1 remain
+
+```bash
+[3, 1, 4, 2]
+   /      \
+[3, 1]   [4, 2]
+ /   \    /   \
+[3] [1] [4] [2]
+```
+
+**Step 2:** Merge
+
+- Merge `[3]` and `[1]` -> compares 3 vs 1 -> `[1, 3]`
+- Merge `[4]` and `[2]` -> compares 4 vs 2 -> `[2, 4]`
+
+**Step 3:** Final merge
+
+- Merge `[1, 3]` and `[2, 4]`
+  - compare 1 vs 2 -> 1 is smaller -> `[1]`
+  - compares 2 vs 3 -> 2 is smaller -> `[1, 2]`
+  - compares 3 vs 4 -> 3 is smaller -> `[1, 2, 3]`
+  - append leftover 4 -> `[1, 2, 3, 4]`
+
+### Time complexity
+
+Merge sort repeatedly divides the array in halves until subarrays of size 1 remain; therefore, the total number of levels = how many times 2 can divide n before reaching 1 = log2n. Each level of merging makes n comparisons, giving a time complexity of O(nlogn).
+
+Unlike quick sort, its time complexity is consistently O(nlogn), but requires more memory for merging
+
+### Implementing merge sort
+
+The merge sort implementation is made up of two main parts
+
+1. Recursive merge sort function:
+   - Input: an array
+   - Base case: if the array is of size 0 or 1, then its already sorted
+   - Recursive case:
+     - split into two halves
+     - recursively call merge sort on each half
+     - merge two sorted halves
+2. Merge function
+   - Input: two sorted array
+   - Output: a single sorted array

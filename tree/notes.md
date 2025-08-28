@@ -42,9 +42,7 @@ A binary search tree is a binary tree in which for every node:
 
 ## Depth-First Search (DFS)
 
-Depth-First Search, also known as Depth-First Traversal, is an algorithm for searching or traversing tree or graph data structures. The core principle of DFS is a explore as far as possible along each branch before backtracking
-
-## Tree Traversal
+Depth-First Search, also known as Depth-First Traversal, is an algorithm for searching or traversing tree or graph data structures. The core principle of DFS is to explore as far as possible along one path (parent -> child -> grandchild, until you reach a leaf) before backtracking. It is implemented using a stack (either explicit or through recursion)
 
 When traversing a tree, we decide when we want to visit root compared to the left and right subtrees. This gives us three depth-first traversals:
 
@@ -65,3 +63,17 @@ Suppose we have:
 - Postorder: `C B A`
 
 An inorder traversal on a binary search tree always gives us the sorted sequence of keys. This is one of the big reasons why BST are useful
+
+## Breadth-First Search (BFS)
+
+Breadth-First Search, also known as Breadth-First Traversal, is also an algorithm for searching or traversing tree or graph data structures. The core principle of BFS is to explore all neighbors (or directly connected nodes: children of a node) of the current node before moving deeper. So BFS on a tree visits parent, then all its children, then all their children etc. This is implemented using a queue
+
+When traversing a tree using breadth-first traversal, we visit nodes level by level from top to bottom (root -> children -> grandchildren)
+
+### Implementation Idea
+
+- Use a queue (FIFO)
+- Start by enqueuing the root
+- While the queue is not empty:
+  - Dequeue one node, visit it
+  - Enqueue its children (left, then right)

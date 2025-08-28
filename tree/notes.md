@@ -79,3 +79,19 @@ When traversing a tree using breadth-first traversal, we visit nodes level by le
 - While the queue is not empty:
   - Dequeue one node, visit it
   - Enqueue its children (left, then right)
+
+## Time complexity of search, insertion, and deletion on a BST
+
+The time complexity of a tree is expressed in terms of the height of the tree, because you walk from the root down at most h edges. If the tree is balanced, each step cuts the remaining values in half. So O(h) = O(logn). However, if the tree is unbalanced like a linked list. So O(h) = O(n)
+
+Insertion and Deletion is also O(h), because you first need to search where the node is or where to place a new node. In a balanced bst, O(h) = O(logn). If not, O(h) = O(n). That's why self-balancing trees are important: they guarantee h = log2n
+
+## Implementing deletion in a BST
+
+1. Case 1: If the node is a leaf node, then we can just delete the node
+2. Case 2: If the node has one child, replace the node with its only child
+3. Case 3: If the node has two children:
+   - Two valid choices:
+     - Inorder predecessor: largest value in the left subtree
+     - Inorder successor: smallest value in the right subtree
+   - Replace the node's value with its predecessor/successor, then delete that node recursively with Case 1 or Case 2

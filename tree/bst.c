@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,6 +77,60 @@ int insert(bst_t *bst, int data) {
     return 0;
 }
 
+node_t *search(node_t *root, int needle) {
+    if (!root) {
+        return NULL;
+    }
+
+    if (root->data == needle) {
+        return root;
+    } 
+    
+    if (needle > root->data) {
+        return search(root->right, needle);
+    } 
+
+    return search(root->left, needle);
+}
+
+node_t *find_successor(node_t *root) {
+    if (!root->left) {
+        return root;
+    }
+
+    return find_successor(root->left);
+}
+
+node_t *delete(node_t *root, int data) {
+    if (!root) {
+        return NULL;
+    }
+
+    if (data > root->data) {
+        root->right = delete(root->right, data);
+    } else if (data < root->data) {
+        root->left = delete(root->left, data);
+    } else {
+        // case 1 & case 2: 0 or 1 child
+        if (root->left == NULL) {
+            node_t *right = root->right;
+            free(root);
+            return right;
+        } else if (root->right == NULL) {
+            node_t *left = root->left;
+            free(root);
+            return left;
+        }
+
+        // case 3: 2 child
+        node_t *successor = find_successor(root->right);
+        root->data = successor->data;
+        root->right = delete(root->right, successor->data);
+    }
+
+    return root;
+}
+
 void collect_node(int data, void *ctx) {
     collector_t *col = ctx;
     if (col->size < col->capacity) {
@@ -130,12 +185,19 @@ int main() {
 
     // preorder(bst.root, collect_node, &col);
     // inorder(bst.root, collect_node, &col);
-    postorder(bst.root, collect_node, &col);
-
-    for (int i = 0, n = col.size; i < n; i++) {
-        printf("%d ", col.arr[i]);
+    // postorder(bst.root, collect_node, &col);
+    delete(bst.root, 3);
+    node_t *n = search(bst.root, 3);
+    if (n == NULL) {
+        printf("Not found\n");
+    } else {
+        printf("%d\n", n->data);
     }
-    printf("\n");
+
+    // for (int i = 0, n = col.size; i < n; i++) {
+    //     printf("%d ", col.arr[i]);
+    // }
+    // printf("\n");
 
     cleanup_bst(&bst);
     return 0;

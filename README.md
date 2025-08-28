@@ -1,22 +1,21 @@
 # Data Structures & Algorithms in C
 
-This repository is my **foundational DSA playground**.  
-I’m building all core data structures and algorithms **from scratch in C** to deeply understand memory, pointers, and runtime complexity
+This repository is my **foundational DSA playground**. I’m building all core data structures and algorithms **from scratch in C** to deeply understand memory, pointers, and runtime complexity
 
-## 🚀 Why C?
+## Why C?
 
 - Zero abstractions: you manage memory directly (`malloc`, `free`).
 - Forces a deep understanding of how data is laid out in memory.
 - Classic CS: most textbooks map naturally to C.
 
-## ✅ Progress
+## Progress
 
 - [x] Searching
 - [x] Arrays
 - [x] Linked List
 - [x] Queue
 - [x] Stack
-- [] Sorting
+- [x] Sorting
 - [] Trees
 - [] Heap
 - [] Graphs

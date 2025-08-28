@@ -64,6 +64,8 @@ Suppose we have:
 
 An inorder traversal on a binary search tree always gives us the sorted sequence of keys. This is one of the big reasons why BST are useful
 
+Depth-First traversal preserves enough information about the shape of a tree. Inorder gives us the relative ordering of the left vs root vs right, combined with preorder or postorder, we can uniquely pin down the structure
+
 ## Breadth-First Search (BFS)
 
 Breadth-First Search, also known as Breadth-First Traversal, is also an algorithm for searching or traversing tree or graph data structures. The core principle of BFS is to explore all neighbors (or directly connected nodes: children of a node) of the current node before moving deeper. So BFS on a tree visits parent, then all its children, then all their children etc. This is implemented using a queue

@@ -16,7 +16,8 @@ This repository is my **foundational DSA playground**. I’m building all core d
 - [x] Queue
 - [x] Stack
 - [x] Sorting
-- [] Trees
-- [] Heap
+- [x] Trees
+- [x] Heap
+- [] Tries
 - [] Graphs
 - [] Maps & LRU

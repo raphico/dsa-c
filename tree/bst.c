@@ -29,7 +29,7 @@ void cleanup_nodes(node_t *root) {
     if (!root) {
         return;
     }
-    
+
     cleanup_nodes(root->left);
     cleanup_nodes(root->right);
     free(root);
@@ -71,7 +71,7 @@ int insert(bst_t *bst, int data) {
 
     n->data = data;
     n->left = n->right = NULL;
-    bst-> root = insert_node(bst->root, n);
+    bst->root = insert_node(bst->root, n);
     bst->size++;
 
     return 0;
@@ -84,11 +84,11 @@ node_t *search(node_t *root, int needle) {
 
     if (root->data == needle) {
         return root;
-    } 
-    
+    }
+
     if (needle > root->data) {
         return search(root->right, needle);
-    } 
+    }
 
     return search(root->left, needle);
 }
@@ -158,14 +158,14 @@ void inorder(node_t *root, void (*visit)(int, void *), void *ctx) {
     inorder(root->right, visit, ctx);
 }
 
-void postorder(node_t *root, void(*visit)(int, void *), void *ctx) {
+void postorder(node_t *root, void (*visit)(int, void *), void *ctx) {
     if (!root) {
         return;
     }
 
     postorder(root->left, visit, ctx);
     postorder(root->right, visit, ctx);
-    visit(root->data, ctx); 
+    visit(root->data, ctx);
 }
 
 int main() {

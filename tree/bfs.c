@@ -30,7 +30,7 @@ void cleanup_nodes(node_t *root) {
     if (!root) {
         return;
     }
-    
+
     cleanup_nodes(root->left);
     cleanup_nodes(root->right);
     free(root);
@@ -72,7 +72,7 @@ int insert(bst_t *bst, int data) {
 
     n->data = data;
     n->left = n->right = NULL;
-    bst-> root = insert_node(bst->root, n);
+    bst->root = insert_node(bst->root, n);
     bst->size++;
 
     return 0;
@@ -87,7 +87,7 @@ queue_t *create_queue(size_t capacity) {
     q->capacity = capacity;
     q->front = 0;
     q->rear = 0;
-    q->items = malloc(sizeof(node_t*) * capacity);
+    q->items = malloc(sizeof(node_t *) * capacity);
 
     return q;
 }
@@ -107,7 +107,7 @@ int enqueue(queue_t *q, node_t *n) {
 }
 
 int dequeue(queue_t *q, node_t **out) {
-    if (!q)  {
+    if (!q) {
         return -1;
     }
 
@@ -115,9 +115,7 @@ int dequeue(queue_t *q, node_t **out) {
     return 0;
 }
 
-bool is_empty(queue_t *q) {
-    return q->rear == q->front;
-}
+bool is_empty(queue_t *q) { return q->rear == q->front; }
 
 int bfs(bst_t *bst, int needle, bool *found) {
     queue_t *q = create_queue(bst->size);

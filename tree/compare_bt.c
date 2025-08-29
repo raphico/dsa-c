@@ -21,7 +21,7 @@ bool compare(node_t *a, node_t *b) {
     if ((a == NULL) != (b == NULL)) {
         return false;
     }
-    
+
     if (a->data != b->data) {
         return false;
     }

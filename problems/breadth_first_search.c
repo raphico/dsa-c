@@ -11,7 +11,6 @@ typedef struct {
     point *data;
     int front;
     int rear;
-    size_t capacity;
 } queue;
 
 typedef struct {
@@ -123,7 +122,6 @@ path bfs_maze_solver(char **maze, int height, int width, char wall, point start,
 
     result.steps = malloc(sizeof(point) * height * width);
     if (!result.steps) {
-        free_queue(q);
         free(prev);
         return result;
     }
@@ -154,7 +152,6 @@ queue *create_queue(size_t capacity) {
 
     q->front = 0;
     q->rear = 0;
-    q->capacity = capacity;
 
     q->data = malloc(sizeof(point) * capacity);
     if (!q->data) {
@@ -164,8 +161,6 @@ queue *create_queue(size_t capacity) {
 
     return q;
 }
-
-bool is_full(queue *q) { return q->rear == q->capacity; }
 
 bool is_empty(queue *q) { return q->rear == q->front; }
 

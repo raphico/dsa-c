@@ -38,6 +38,7 @@ int main() {
 
     graph.size = 7;
     graph.adj = malloc(sizeof(int *) * graph.size);
+
     for (int i = 0; i < graph.size; i++) {
         graph.adj[i] = malloc(sizeof(int) * graph.size);
         for (int j = 0; j < graph.size; j++) {
@@ -102,8 +103,8 @@ bfs_result_t *bfs(weighted_adjacency_matrix_t *graph, int source, int needle) {
         }
 
         for (int i = 0, n = graph->size; i < n; i++) {
-            int neighbor = graph->adj[curr][i];
-            if (neighbor == 0) {
+            int edge = graph->adj[curr][i];
+            if (edge == 0) {
                 continue;
             }
             if (prev[i] != -1) {

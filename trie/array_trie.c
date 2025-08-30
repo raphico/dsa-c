@@ -57,7 +57,7 @@ bool trie_delete(trie_node_t *root, const char *word, int depth) {
         return true;
     }
     int index = tolower(word[depth]) - 'a';
-    
+
     if (!root->children[index]) {
         return false;
     }

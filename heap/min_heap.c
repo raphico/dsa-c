@@ -35,7 +35,7 @@ void min_heap_heapify_up(min_heap_t *min_heap, int i) {
     if (min_heap->elements[i] >= min_heap->elements[parent_idx]) {
         return;
     }
-    
+
     int tmp = min_heap->elements[parent_idx];
     min_heap->elements[parent_idx] = min_heap->elements[i];
     min_heap->elements[i] = tmp;
@@ -49,7 +49,8 @@ int min_heap_insert(min_heap_t *min_heap, int data) {
 
     if (min_heap->size >= min_heap->capacity) {
         int new_capacity = min_heap->capacity * 2;
-        int *new_elements = realloc(min_heap->elements, sizeof(int) * new_capacity);
+        int *new_elements =
+            realloc(min_heap->elements, sizeof(int) * new_capacity);
         if (!new_capacity) {
             return -1;
         }
@@ -69,7 +70,7 @@ int min_heap_peek_min(min_heap_t *min_heap, int *min) {
     }
 
     *min = min_heap->elements[0];
-    return 0; 
+    return 0;
 }
 
 void min_heap_heapify_down(min_heap_t *min_heap, int i) {
@@ -77,17 +78,13 @@ void min_heap_heapify_down(min_heap_t *min_heap, int i) {
     int right = 2 * i + 2;
     int smallest = i;
 
-    if (
-        left < min_heap->size &&
-        min_heap->elements[left] < min_heap->elements[smallest]
-    ) {
+    if (left < min_heap->size &&
+        min_heap->elements[left] < min_heap->elements[smallest]) {
         smallest = left;
     }
 
-    if (
-        right < min_heap->size &&
-        min_heap->elements[right] < min_heap->elements[smallest]
-    ) {
+    if (right < min_heap->size &&
+        min_heap->elements[right] < min_heap->elements[smallest]) {
         smallest = right;
     }
 
@@ -100,7 +97,7 @@ void min_heap_heapify_down(min_heap_t *min_heap, int i) {
     }
 }
 
-int min_heap_extract_min(min_heap_t *min_heap, int *min) { 
+int min_heap_extract_min(min_heap_t *min_heap, int *min) {
     if (!min_heap || min_heap->size == 0) {
         return -1;
     }
@@ -110,7 +107,7 @@ int min_heap_extract_min(min_heap_t *min_heap, int *min) {
     min_heap->elements[0] = min_heap->elements[min_heap->size - 1];
     min_heap->size--;
     min_heap_heapify_down(min_heap, 0);
-    return 0; 
+    return 0;
 }
 
 void min_heap_free(min_heap_t *min_heap) {
@@ -134,7 +131,7 @@ int main() {
     int min;
     min_heap_extract_min(min_heap, &min);
     printf("Extract min: %d\n", min);
-    
+
     min_heap_peek_min(min_heap, &min);
     printf("Peek min: %d\n", min);
 

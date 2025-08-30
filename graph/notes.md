@@ -63,7 +63,7 @@ An adjacency list is a way of representing a graph where each vertex stores a li
 
 **Pros:**
 
-- uses O(v + m) memory, where v is the number of vertices and m is the number of edges
+- uses O(v + E) memory, where v is the number of vertices and E is the number of edges
 - Easy to iterate over neighbors of a vertex
 - Adding/removing is straightforward
 
@@ -86,6 +86,14 @@ There are two main algorithms used to search or traverse a graph:
 
 Depth-first search explores as far as possible along a path before backtracking. Implemented using a stack, either an explicit one or through recursion. It is useful for detecting cycles
 
+**Running time:**
+In an adjacency list, DFS visits each vertex and edge once. So the running time is O(V + E)
+In an adjacency matrix, you check every possible edge per vertex. So the running time is O(V^2)
+
 ### Breadth-First Search
 
 Bread-first search explores vertices level by level, visiting all neighbors before moving deeper. Implemented using a queue. It is used to find the shortest path in an unweighted graph, level-order traversal
+
+**Running time:**
+In an adjacency list, BFS visits each vertex and edge once. So the running time is O(V + E)
+In an adjacency matrix, you check every possible edge per vertex. So the running time is O(V^2)

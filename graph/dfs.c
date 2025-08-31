@@ -74,7 +74,7 @@ int main() {
 }
 
 bool dfs_recur(weighted_adjacency_list_t *graph, int curr, int needle,
-                bool *visited, int *path, int *path_len) {
+               bool *visited, int *path, int *path_len) {
     if (curr == needle) {
         path[*path_len] = curr;
         (*path_len)++;

@@ -10,13 +10,13 @@ typedef struct edge_t {
 } edge_t;
 
 typedef struct {
-    edge_t **adj;   
-    size_t size;    
+    edge_t **adj;
+    size_t size;
 } graph_t;
 
 typedef struct {
-    int *dist;      
-    int *prev;      
+    int *dist;
+    int *prev;
 } dijkstra_result_t;
 
 typedef struct {
@@ -39,7 +39,8 @@ bool heap_full(heap_t *h);
 
 dijkstra_result_t *dijkstra(graph_t *g, int source, int sink) {
     dijkstra_result_t *res = malloc(sizeof(dijkstra_result_t));
-    if (!res) return NULL;
+    if (!res)
+        return NULL;
 
     res->dist = malloc(sizeof(int) * g->size);
     if (!res->dist) {
@@ -75,7 +76,8 @@ dijkstra_result_t *dijkstra(graph_t *g, int source, int sink) {
         heap_entry_t curr;
         heap_pop(heap, &curr);
 
-        if (curr.vertex == sink) break;
+        if (curr.vertex == sink)
+            break;
 
         for (edge_t *e = g->adj[curr.vertex]; e; e = e->next) {
             int new_dist = res->dist[curr.vertex] + e->weight;
@@ -93,7 +95,8 @@ dijkstra_result_t *dijkstra(graph_t *g, int source, int sink) {
 
 heap_t *heap_create(size_t capacity) {
     heap_t *h = malloc(sizeof(heap_t));
-    if (!h) return NULL;
+    if (!h)
+        return NULL;
 
     h->data = malloc(sizeof(heap_entry_t) * capacity);
     if (!h->data) {
@@ -107,24 +110,23 @@ heap_t *heap_create(size_t capacity) {
 }
 
 void heap_destroy(heap_t *h) {
-    if (!h) return;
+    if (!h)
+        return;
     free(h->data);
     free(h);
 }
 
-bool heap_full(heap_t *h) {
-    return h->size == h->capacity;
-}
+bool heap_full(heap_t *h) { return h->size == h->capacity; }
 
-bool heap_empty(heap_t *h) {
-    return h->size == 0;
-}
+bool heap_empty(heap_t *h) { return h->size == 0; }
 
 static void heap_sift_up(heap_t *h, int i) {
-    if (i == 0) return;
+    if (i == 0)
+        return;
 
     int parent = (i - 1) / 2;
-    if (h->data[i].dist >= h->data[parent].dist) return;
+    if (h->data[i].dist >= h->data[parent].dist)
+        return;
 
     heap_entry_t tmp = h->data[parent];
     h->data[parent] = h->data[i];
@@ -134,9 +136,10 @@ static void heap_sift_up(heap_t *h, int i) {
 }
 
 int heap_push(heap_t *h, int vertex, int dist) {
-    if (!h || heap_full(h)) return -1;
+    if (!h || heap_full(h))
+        return -1;
 
-    heap_entry_t entry = { .vertex = vertex, .dist = dist };
+    heap_entry_t entry = {.vertex = vertex, .dist = dist};
     h->data[h->size++] = entry;
     heap_sift_up(h, h->size - 1);
     return 0;
@@ -162,7 +165,8 @@ static void heap_sift_down(heap_t *h, int i) {
 }
 
 int heap_pop(heap_t *h, heap_entry_t *out) {
-    if (!h || h->size == 0) return -1;
+    if (!h || h->size == 0)
+        return -1;
 
     *out = h->data[0];
     h->data[0] = h->data[--h->size];

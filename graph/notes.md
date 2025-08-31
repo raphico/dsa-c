@@ -92,8 +92,106 @@ In an adjacency matrix, you check every possible edge per vertex. So the running
 
 ### Breadth-First Search
 
-Bread-first search explores vertices level by level, visiting all neighbors before moving deeper. Implemented using a queue. It is used to find the shortest path in an unweighted graph, level-order traversal
+Bread-first search explores vertices level by level, visiting all neighbors before moving deeper. So we first visit all vertices 1 edge away, then all vertices 2 edges away, and so on. Implemented using a queue. It is used to find the shortest path in an unweighted graph, level-order traversal
 
 **Running time:**
 In an adjacency list, BFS visits each vertex and edge once. So the running time is O(V + E)
 In an adjacency matrix, you check every possible edge per vertex. So the running time is O(V^2)
+
+## Shortest path
+
+We use BFS to find the shortest path in an unweighted graph, because BFS visits vertices level by level, so BFS explores in order of increasing edges; therefore, when you first see the target, you must have found the minimum number of edges needed to get there
+
+For an unweighted graph, we need a different algorithm that takes those weights into account:
+
+### Dijkstra’s Algorithm
+
+Dijkstra's algorithm is a greedy algorithm that is used to find the shortest path in a weighted graph. It works by repeatedly choosing the vertex with the smallest known distance to the source.
+
+We keep an array of distances to track the best length found so far, and a predecessor array that records which vertices led us to this point. Once the algorithm finish, we reconstruct the shortest path to the target by walking backwards through the predecessor array
+
+For each vertex `v` we visit, we relax its neighbors. That means for each neighbor `u` of `v`:
+
+- we check whether going through `v` will give a smaller distance to `u` than the currently known distance of `u`. So we check if `dist[v] + weight(v, u) < dist[u]`
+- If yes, we update the distance of `u` `dist[u] = dist[v] + weight(v, u)`
+- We set `v` as the predecessor of `u`
+
+For a example, lets look at a graph with vertices: A, B, C, D. And edges with weights
+
+```mathematica
+A → B = 2
+A → C = 5
+B → C = 1
+B → D = 4
+C → D = 2
+```
+
+Step 0: initialization
+
+| Vertex | Distance from A | Predecessor |
+| ------ | --------------- | ----------- |
+| A      | 0               | -           |
+| B      | ∞               | -           |
+| C      | ∞               | -           |
+| D      | ∞               | -           |
+
+min-heap: [A]
+
+Step 1: We pick a source A and visit it
+
+- Neighbors of A are B (weight 2) and C (weight 5)
+- Relax B: `0 + 2 < ∞` -> update dist[B] = 2, predecessor[B] = A
+- Relax C: `0 + 5 < ∞` -> update dist[C] = 5, predecessor[C] = A
+
+| Vertex | Distance from A | Predecessor |
+| ------ | --------------- | ----------- |
+| A      | 0               | -           |
+| B      | 2               | A           |
+| C      | 5               | A           |
+| D      | ∞               | -           |
+
+min-heap: [B, C]
+
+step 2: visit B
+
+- Neighbors of B are C (weight 1) and D (weight 4)
+- Relax C: `2 + 1 < 5 = 3 < 5` -> update dist[C] = 3, predecessor[C] = B
+- Relax D: `2 + 4 < ∞` -> update dist[D] = 6, predecessor[D] = B
+
+| Vertex | Distance from A | Predecessor |
+| ------ | --------------- | ----------- |
+| A      | 0               | -           |
+| B      | 2               | A           |
+| C      | 3               | B           |
+| D      | 6               | B           |
+
+min-heap: [C, D]
+
+step 3: Visit C
+
+- C just has one neighbor D (weight of 2)
+- Relax D: `2 + 3 < 6 = 5 < 6` -> update dist[D] = 5, predecessor[D] = C
+
+| Vertex | Distance | Predecessor |
+| ------ | -------- | ----------- |
+| A      | 0        | -           |
+| B      | 2        | A           |
+| C      | 3        | B           |
+| D      | 5        | C           |
+
+min-heap: [D]
+
+step 4: Visit D
+
+- D has no neighbors
+- Algorithm done
+
+shortest part from A -> D: A -> B -> C -> D, distance = 5
+
+In a weighted graph `dist[i]` is the total weight of the shortest path from the source to i. While in an unweighted graph, it is the total number of edges in the shortest path
+
+For unweighted graph, BFS is a better choice, because
+
+- it is simpler to implement (no need for relaxation math and priority queues).
+- Run at O(V + E)
+- Dijkstra's (with a priority queue) runs in about O((V + E)log V)

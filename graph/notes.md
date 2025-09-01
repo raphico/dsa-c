@@ -195,3 +195,57 @@ For unweighted graph, BFS is a better choice, because
 - it is simpler to implement (no need for relaxation math and priority queues).
 - Run at O(V + E)
 - Dijkstra's (with a priority queue) runs in about O((V + E)log V)
+
+## Spanning tree
+
+A spanning tree of a graph is a subgraph that includes all vertices and the minimum number of edges needed to keep the graph connected, which is `V-1` edges (where `V` is the number of vertices). By definition, a spanning tree doesn't contain cycles. A graph can have many different spanning trees. In a weighted graph, the minimum spanning tree (MST) is the spanning tree with the smallest total edge weight
+
+### Intuition
+
+Imagine a map with cities (vertices) and roads (edges), and you want to connect every city without creating loops, and using a few roads as possible. That's a spanning tree
+
+### Prim's algorithm
+
+Prim’s algorithm is a greedy algorithm that builds the minimum spanning tree (MST) by repeatedly choosing the smallest edge that connects a vertex inside the MST to a vertex outside the MST. It grows the MST one vertex at a time.
+
+**Steps:**
+
+1. Start with an arbitrary vertex
+2. Pick the smallest weight edge that connects a vertex in the MST to a vertex that is not yet in the MST
+3. Add the vertex and edge to the MST
+4. repeat until all vertices are included
+
+**Implementation details:**
+
+- uses a priority queue (min-heap) to efficiently get the smallest edge to a new vertex
+- The heap stores vertices along with their current best-known connecting edge weight
+
+**Running time:**
+
+- Heap has at most V vertices
+- Each edge may update a vertex’s key in the heap, which takes O(log V)
+- Total: O(E log V) with adjacency lists and a heap
+
+### Kruskal's algorithm
+
+Kruskal's algorithm is also a greedy algorithm used to build a MST by repeatedly choosing the smallest edge that does not form a cycle. Instead of growing from one vertex, it grows a forest (a set of trees) that eventually becomes a spanning tree
+
+**Steps:**
+
+1. Sort all edges by weight (smallest to largest)
+2. Start with each vertex in its own set (disjoint-set / union-find).
+3. For each edge in order:
+   - If the edge connects two different sets (no cycle), include it in the MST and union the sets.
+   - Otherwise, skip it.
+4. Stop when you have V – 1 edges in the MST.
+
+**Implementation details:**
+
+- Uses disjoint-set (union-find) to quickly check if two vertices are in the same set.
+- Sorting edges dominates the runtime.
+
+**Running time:**
+
+- Sorting edges: O(E log E) ≈ O(E log V) (since E ≤ V²).
+- Union-Find operations: nearly O(1) each (with path compression + union by rank).
+- Total: O(E log V).
